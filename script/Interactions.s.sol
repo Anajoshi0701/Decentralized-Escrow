@@ -15,34 +15,34 @@ contract Interactions is Script {
     }
 
     function _startBroadcast(string memory role) internal {
-         uint256 privateKey = vm.envUint(role);
+        uint256 privateKey = vm.envUint(role);
         vm.broadcast(privateKey);
     }
 
     function deposit() public {
         Escrow escrow = getEscrow();
         uint256 amount = escrow.amount();
-       _startBroadcast("PRIVATE_KEY_BUYER");
+        _startBroadcast("PRIVATE_KEY_BUYER");
         escrow.deposit{value: amount}();
-        console.log("Buyer deposited %s ETH into Escrow at %s", amount / 1e18 , address(escrow));
+        console.log("Buyer deposited %s ETH into Escrow at %s", amount / 1e18, address(escrow));
     }
 
     function release() public {
-         Escrow escrow = getEscrow();
-         _startBroadcast("PRIVATE_KEY_ARBITER");
-          escrow.release();
-          console.log("Funds released to seller: ", escrow.seller());
+        Escrow escrow = getEscrow();
+        _startBroadcast("PRIVATE_KEY_ARBITER");
+        escrow.release();
+        console.log("Funds released to seller: ", escrow.seller());
     }
 
     function refund() public {
         Escrow escrow = getEscrow();
-_startBroadcast("PRIVATE_KEY_ARBITER");
+        _startBroadcast("PRIVATE_KEY_ARBITER");
         escrow.refund();
         console.log("Funds refunded to buyer: ", escrow.buyer());
     }
 
     function disputeAsBuyer() public {
-  Escrow escrow = getEscrow();
+        Escrow escrow = getEscrow();
         _startBroadcast("PRIVATE_KEY_BUYER");
         escrow.dispute();
         console.log("dispute raised by buyer: ", escrow.buyer());
@@ -50,15 +50,14 @@ _startBroadcast("PRIVATE_KEY_ARBITER");
 
     function disputeAsSeller() public {
         Escrow escrow = getEscrow();
-       _startBroadcast("PRIVATE_KEY_SELLER");
-       escrow.dispute();
-       console.log("dispute raised by seller: " , escrow.seller());
-
+        _startBroadcast("PRIVATE_KEY_SELLER");
+        escrow.dispute();
+        console.log("dispute raised by seller: ", escrow.seller());
     }
 
     function forceRefund() public {
-         Escrow escrow = getEscrow();
-         _startBroadcast("PRIVATE_KEY_BUYER");
+        Escrow escrow = getEscrow();
+        _startBroadcast("PRIVATE_KEY_BUYER");
         escrow.forceRefund();
         console.log("Buyer force refunded funds");
     }
