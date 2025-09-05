@@ -1,66 +1,103 @@
-## Foundry
+# 🛡️ Decentralized Escrow
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A smart contract-based escrow system built with **Solidity** and **Foundry**, enabling secure, trustless transactions between buyers and sellers with an arbiter for dispute resolution. This project includes deployment scripts, interaction logic, automated testing, and GitHub Actions integration.
 
-Foundry consists of:
+---
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 📦 Features
 
-## Documentation
+- **Escrow Contract** with buyer, seller, and arbiter roles
+- **Deposit, Release, Refund, Dispute** and **Force Refund** flows
+- **Time-based duration** for escrow expiration
+- **Deployment & Interaction Scripts** using Foundry
+- **Environment Configuration** via `.env`
+- **Automated CI** with GitHub Actions
+- **Testnet-ready** (Sepolia)
 
-https://book.getfoundry.sh/
+---
 
-## Usage
+## 🧰 Tech Stack
 
-### Build
+- **Solidity** `^0.8.20`
+- **Foundry** (Forge & Cast)
+- **GitHub Actions** for CI
+- **Alchemy RPC** for Sepolia
+- **Etherscan API** for contract verification
 
-```shell
-$ forge build
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone git@github.com:Anajoshi0701/Decentralized-Escrow.git
+cd Decentralized-Escrow
 ```
+2. Install Foundry
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
 
-### Test
 
-```shell
-$ forge test
-```
+3. Set Up Environment Variables
+Create a .env file based on .env.example:
+RPC_URL=
 
-### Format
+# Roles
+SELLER=
+ARBITER=
 
-```shell
-$ forge fmt
-```
+# Escrow parameters
+AMOUNT=
+DURATION=
 
-### Gas Snapshots
+# Private keys for local testing / interactions
+PRIVATE_KEY_BUYER=
+PRIVATE_KEY_SELLER=
+PRIVATE_KEY_ARBITER=
 
-```shell
-$ forge snapshot
-```
+📜 Contracts
+Escrow.sol
+Located in src/, this contract handles:
+- Deposits from buyer
+- Release of funds to seller
+- Refunds to buyer
+- Dispute initiation by buyer/seller
+- Forced refund by buyer after duration
 
-### Anvil
+📂 Scripts
+DeployEscrow.s.sol
+Deploys the Escrow contract using environment variables.
+Interactions.s.sol
+Handles all contract interactions:
+- deposit()
+- release()
+- refund()
+- disputeAsBuyer()
+- disputeAsSeller()
+- forceRefund()
 
-```shell
-$ anvil
-```
 
-### Deploy
+🧪 Testing
+Run unit tests with:
+forge test
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
 
-### Cast
+Tests are located in test/Escrow.t.sol.
 
-```shell
-$ cast <subcommand>
-```
+🔐 License
+This project is licensed under the MIT License.
 
-### Help
+🙋‍♀️ Author
+Built with ❤️ by Ana Joshi
+GitHub: @Anajoshi0701
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+
+
+
+
+
+
+
+
+
