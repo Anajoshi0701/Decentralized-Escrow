@@ -43,15 +43,15 @@ foundryup
 Create a .env file based on .env.example:
 RPC_URL=
 
-# Roles
+ Roles
 SELLER=
 ARBITER=
 
-# Escrow parameters
+ Escrow parameters
 AMOUNT=
 DURATION=
 
-# Private keys for local testing / interactions
+ Private keys for local testing / interactions
 PRIVATE_KEY_BUYER=
 PRIVATE_KEY_SELLER=
 PRIVATE_KEY_ARBITER=
