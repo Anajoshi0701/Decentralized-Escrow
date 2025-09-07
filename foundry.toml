@@ -2,22 +2,25 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+# Add fs_permissions under the profile
+fs_permissions = [
+  { access = "read-write", path = "./broadcast" },
+  { access = "read-write", path = "./escrows.json" }
+]
 
 [profile.ci]
 src = "src"
 out = "out"
 libs = ["lib"]
-# Optimizations for CI
 fuzz_runs = 5
-# Add any other CI-specific optimizations
-
-remappings = [
-  "@openzeppelin/=lib/openzeppelin-contracts/",
-  "foundry-devops/=lib/foundry-devops/src/",
-  "forge-std/=lib/forge-std/src/"
-]
-
+# Also add fs_permissions for CI profile
 fs_permissions = [
   { access = "read-write", path = "./broadcast" },
   { access = "read-write", path = "./escrows.json" }
+]
+
+remappings = [
+  "@openzeppelin/=lib/openzeppelin-contracts/",
+  "foundry-devops/=lib/foundry-devops/", 
+  "forge-std/=lib/forge-std/src/"
 ]
