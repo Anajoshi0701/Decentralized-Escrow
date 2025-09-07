@@ -95,7 +95,7 @@ Use the following as reference:
 }
 ```
 
-📜 Contracts
+## 📜 Contracts
 
 Escrow.sol
 Core escrow logic:
@@ -118,7 +118,7 @@ Tracks escrows by buyer, seller, arbiter, and deployer
 
 Emits EscrowCreated events for monitoring
 
-📂 Scripts
+## 📂 Scripts
 
 DeployEscrow.s.sol → Deploy a single Escrow contract
 
@@ -130,7 +130,7 @@ Interactions.s.sol → Interact with Escrow.sol (deposit, release, refund, dispu
 
 InteractionsFactory.s.sol → Interact with EscrowFactory (query and manage escrows)
 
-🧪 Testing
+## 🧪 Testing
 
 Run unit tests with:
 
@@ -144,7 +144,7 @@ test/Escrow.t.sol → Unit tests for Escrow.sol
 
 test/EscrowFactoryTest.t.sol → Unit tests for EscrowFactory.sol
 
-🔄 Continuous Integration
+## 🔄 Continuous Integration
 
 GitHub Actions automatically run formatting and tests on every push.
 Formatting is enforced via:
@@ -153,11 +153,10 @@ Formatting is enforced via:
 forge fmt --check
 ```
 
-🔐 License
+## 🔐 License
 
 This project is licensed under the MIT License.
 
-🙋‍♀️ Author
+## 🙋‍♀️ Author
 
 Built with ❤️ by Ana Joshi
-GitHub: @Anajoshi0701
