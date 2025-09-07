@@ -1,64 +1,43 @@
-# 🛡️ Decentralized Escrow
+# 🛡️ Decentralized Escrow System
 
-A smart contract-based escrow system built with Solidity and Foundry, enabling secure, trustless transactions between buyers and sellers with an arbiter for dispute resolution. The project now includes a Factory pattern for creating multiple escrows, deployment & interaction scripts, automated testing, and GitHub Actions integration.
+A comprehensive smart contract-based escrow platform built with Solidity and Foundry, enabling secure, trustless transactions with multi-role governance and dispute resolution. Features a factory pattern for scalable escrow management, automated deployment scripts, and full CI/CD integration.
 
-## 📦 Features
+## 📋 Contract Addresses
 
-Escrow Contract with buyer, seller, and arbiter roles
+### Sepolia Testnet
+- **EscrowFactory**: [0x2D9b84bcA994cBF3FBCdFc444239f90477580580](https://sepolia.etherscan.io/address/0x2D9b84bcA994cBF3FBCdFc444239f90477580580)
+- **Escrow Implementation**: Dynamically deployed through factory
 
-Deposit, Release, Refund, Dispute, Force Refund flows
+## 🚀 Quick Start
 
-Time-based expiration for escrow completion
+### Prerequisites
+- **Foundry**: `curl -L https://foundry.paradigm.xyz | bash && foundryup`
+- **Node.js** (v16+ recommended)
+- **MetaMask** with Sepolia ETH
 
-Escrow Factory for deploying and managing multiple escrow contracts
-
-Mappings to track escrows by buyer, seller, arbiter, and deployer
-
-Deployment & Interaction Scripts using Foundry
-
-Environment configuration via .env
-
-Automated CI with GitHub Actions
-
-Testnet-ready (Sepolia)
-
-## 🧰 Tech Stack
-
-Solidity ^0.8.20
-
-Foundry (Forge & Cast)
-
-OpenZeppelin-contracts
-Foundry DevOps for deployment helpers
-
-GitHub Actions for CI
-
-Alchemy RPC for Sepolia
-
-Etherscan API for contract verification
-
-## 🚀 Getting Started
-1. Clone the Repository
-
-```
+### Installation
+```bash
 git clone git@github.com:Anajoshi0701/Decentralized-Escrow.git
 cd Decentralized-Escrow
+forge install
 ```
 
-2. Install Foundry
-
+### Environment Configuration
+```bash
+cp .env.example .env
+# Edit with your credentials
 ```
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-```
 
-3. Set Up Environment Variables
-
-Create a .env file based on .env.example:
-
-```
+**.env Configuration:**
+```bash
+  #LOCAL NETWORK
 RPC_URL=http://127.0.0.1:8545
 PRIVATE_KEY_DEPLOYER=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+  #SEPOLIA TESTNET
+SEPOLIA_RPC_URL=
+ETHERSCAN_API_KEY=
+SEPOLIA_PRIVATE_KEY=
 
 PRIVATE_KEY_BUYER0=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 PRIVATE_KEY_ARBITER0=0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a
@@ -70,93 +49,106 @@ PRIVATE_KEY_SELLER1=0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a
 
 ```
 
-4. Create a escrows.json File for Factory
-Use the following as reference:
+## 🏗️ Deployment
 
-```
-{
-  "escrows": [
-    {
-      "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      "seller": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-      "arbiter": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-      "amount": "1000000000000000000",
-      "duration": "604800"
-    },
-    {
-      "buyer": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-      "seller": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-      "arbiter": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-      "amount": "1000000000000000000",
-      "duration": "1209600"
-    }
-  ],
-  "count": 2
-}
+### Deploy to Sepolia Testnet
+```bash
+forge script script/DeployFactory.s.sol:DeployFactory \
+  --rpc-url $SEPOLIA_RPC_URL \
+  --private-key $SEPOLIA_PRIVATE_KEY \
+  --broadcast \
+  --verify \
+  --etherscan-api-key $ETHERSCAN_API_KEY \
+  -vvvv
 ```
 
-## 📜 Contracts
+### Deploy Locally (Anvil)
+```bash
+# Start local node
+anvil
 
-Escrow.sol
-Core escrow logic:
-
-Buyer deposits funds
-
-Seller receives release
-
-Buyer can be refunded
-
-Buyer/seller can raise disputes
-
-Forced refund available after expiration
-
-EscrowFactory.sol
-
-Deploys new Escrow contracts
-
-Tracks escrows by buyer, seller, arbiter, and deployer
-
-Emits EscrowCreated events for monitoring
-
-## 📂 Scripts
-
-DeployEscrow.s.sol → Deploy a single Escrow contract
-
-DeployFactory.s.sol → Deploy the EscrowFactory contract
-
-CreateEscrows.s.sol → Use the factory to create escrows
-
-Interactions.s.sol → Interact with Escrow.sol (deposit, release, refund, dispute, forceRefund)
-
-InteractionsFactory.s.sol → Interact with EscrowFactory (query and manage escrows)
-
-## 🧪 Testing
-
-Run unit tests with:
-
+# Deploy factory
+forge script script/DeployFactory.s.sol:DeployFactory \
+  --rpc-url $RPC_URL \
+  --private-key $PRIVATE_KEY_DEPLOYER \
+  --broadcast \
+  -vvvv
 ```
+
+## 🧪 Testing & Development
+
+### Run Test Suite
+```wsl
+# Local tests
 forge test -vvv
+
+# Forked tests (Sepolia)
+forge test --fork-url $SEPOLIA_RPC_URL -vvv
+
+# Gas report
+forge test --gas-report
+
+# Coverage report
+forge coverage
 ```
 
-Tests are located in:
+### Code Quality
+```bash
+# Format code
+forge fmt
 
-test/Escrow.t.sol → Unit tests for Escrow.sol
-
-test/EscrowFactoryTest.t.sol → Unit tests for EscrowFactory.sol
-
-## 🔄 Continuous Integration
-
-GitHub Actions automatically run formatting and tests on every push.
-Formatting is enforced via:
-
-```
+# Lint and check
 forge fmt --check
 ```
 
-## 🔐 License
+## 📊 Scripts Overview
 
-This project is licensed under the MIT License.
+- **`DeployFactory.s.sol`** - Deploys EscrowFactory contract
+- **`CreateEscrows.s.sol`** - Creates multiple escrows through factory
+- **`Interactions.s.sol`** - Handles escrow operations (deposit, release, refund)
+- **`InteractionsFactory.s.sol`** - Manages factory queries and operations
 
-## 🙋‍♀️ Author
+## 🔄 CI/CD Pipeline
 
-Built with ❤️ by Ana Joshi
+GitHub Actions automatically runs on every push:
+- ✅ Code formatting check (`forge fmt --check`)
+- ✅ Compilation verification (`forge build`)
+- ✅ Comprehensive test suite (`forge test -vvv`)
+- ✅ Gas optimization reports
+
+## 🛡️ Security Features
+
+- **Reentrancy Protection**: OpenZeppelin's ReentrancyGuard
+- **Access Control**: Role-based modifiers for buyer, seller, arbiter
+- **Input Validation**: Comprehensive parameter checks
+- **Safe ETH Transfers**: Protected fund transfers
+- **Time-based Expiration**: Automatic refund eligibility
+- **Dispute Resolution**: Arbiter-mediated conflict resolution
+
+## 📝 License
+
+MIT License - See LICENSE file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Add tests for new functionality
+4. Commit changes (`git commit -m 'feat: add amazing feature'`)
+5. Push to branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+## 🆘 Support
+
+For issues and questions:
+- 📋 Create a [GitHub Issue](https://github.com/Anajoshi0701/Decentralized-Escrow/issues)
+- 🐛 Check existing test cases for usage examples
+- 📖 Review contract documentation in code comments
+
+---
+
+**⚠️ Important**: Always test with small amounts first on testnet. Ensure all participants understand escrow terms before initiating transactions.
+
+**🔗 Live Deployment**: [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x2D9b84bcA994cBF3FBCdFc444239f90477580580)
+
+**👩💻 Built with ❤️ by Ana Joshi**
