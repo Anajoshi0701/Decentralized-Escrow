@@ -5,7 +5,7 @@ import {Script} from "forge-std/Script.sol";
 import {console} from "forge-std/console.sol";
 import {EscrowFactory} from "../src/EscrowFactory.sol";
 import {Escrow} from "../src/Escrow.sol";
-import {DevOpsTools} from "foundry-devops/DevOpsTools.sol";
+import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
 
 contract InteractionsFactory is Script {
     function getEscrow(uint256 index) internal view returns (Escrow) {
