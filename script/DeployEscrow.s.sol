@@ -6,9 +6,10 @@ import {Escrow} from "../src/Escrow.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
 contract DeployEscrow is Script {
-     using stdJson for string;
+    using stdJson for string;
+
     function run() external returns (Escrow) {
-         string memory json = vm.readFile("./escrows.json");
+        string memory json = vm.readFile("./escrows.json");
 
         address buyer = json.readAddress(".escrows[0].buyer");
         address seller = json.readAddress(".escrows[0].seller");
@@ -28,7 +29,6 @@ contract DeployEscrow is Script {
         console.log("Arbiter:", arbiter);
         console.log("Amount:", amount);
         console.log("Duration:", duration);
-        
 
         return escrow;
     }

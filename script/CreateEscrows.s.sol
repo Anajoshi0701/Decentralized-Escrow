@@ -7,7 +7,8 @@ import {DevOpsTools} from "foundry-devops/DevOpsTools.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
 contract CreateEscrows is Script {
- using stdJson for string;
+    using stdJson for string;
+
     struct EscrowInput {
         address buyer;
         address seller;
@@ -21,15 +22,12 @@ contract CreateEscrows is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Get the most recent EscrowFactory deployment
-        address mostRecentFactory = DevOpsTools.get_most_recent_deployment(
-            "EscrowFactory",
-            block.chainid
-        );
+        address mostRecentFactory = DevOpsTools.get_most_recent_deployment("EscrowFactory", block.chainid);
         console.log("Using EscrowFactory at:", mostRecentFactory);
 
         EscrowFactory factory = EscrowFactory(mostRecentFactory);
 
-         string memory json = vm.readFile("./escrows.json");
+        string memory json = vm.readFile("./escrows.json");
         uint256 count = json.readUint(".count");
         console.log("Found", count, "escrows in escrows.json");
 
@@ -51,7 +49,6 @@ contract CreateEscrows is Script {
             console.log("  amount:  ", amount / 1e18, "ETH");
             console.log("  duration:", duration, "seconds");
         }
-
 
         vm.stopBroadcast();
     }

@@ -8,16 +8,13 @@ import {Escrow} from "../src/Escrow.sol";
 import {DevOpsTools} from "foundry-devops/DevOpsTools.sol";
 
 contract InteractionsFactory is Script {
-
     function getEscrow(uint256 index) internal view returns (Escrow) {
-        address factoryAddr =
-            DevOpsTools.get_most_recent_deployment("EscrowFactory", block.chainid);
+        address factoryAddr = DevOpsTools.get_most_recent_deployment("EscrowFactory", block.chainid);
         EscrowFactory factory = EscrowFactory(factoryAddr);
         require(index < factory.getEscrowCount(), "Invalid escrow index");
         return factory.escrows(index);
     }
 
-   
     function _startBroadcast(string memory rolePrefix, uint256 escrowIndex) internal {
         string memory key = string.concat(rolePrefix, vm.toString(escrowIndex));
         uint256 privateKey = vm.envUint(key);

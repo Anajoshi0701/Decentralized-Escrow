@@ -51,9 +51,9 @@ contract Escrow is ReentrancyGuard {
         }
         if (_amount == 0) revert Escrow__ZeroAmount();
         if (_duration == 0) revert Escrow__InvalidDuration();
-         if (_arbiter == _buyer || _arbiter == _seller) {
-        revert Escrow__InvalidArbiter();
-    }
+        if (_arbiter == _buyer || _arbiter == _seller) {
+            revert Escrow__InvalidArbiter();
+        }
         buyer = _buyer;
         seller = _seller;
         arbiter = _arbiter;

@@ -34,7 +34,6 @@ contract EscrowFactory {
         deployerToEscrows[msg.sender].push(escrow);
 
         emit EscrowCreated(address(escrow), _buyer, _seller, _arbiter, _amount, _duration);
-        
     }
 
     function getEscrowCount() external view returns (uint256) {
@@ -42,6 +41,6 @@ contract EscrowFactory {
     }
 
     function getBuyerEscrows(address buyer) external view returns (Escrow[] memory) {
-    return buyerToEscrows[buyer];
-}
+        return buyerToEscrows[buyer];
+    }
 }
