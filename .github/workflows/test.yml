@@ -14,16 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Sync and update submodules
-        run: |
-          git submodule sync
-          git submodule update --init --recursive
-
-      - name: Debug forge-std contents
-        run: ls -R lib/forge-std/src
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
