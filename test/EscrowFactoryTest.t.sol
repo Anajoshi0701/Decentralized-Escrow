@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import {Test} from "forge-std/test.sol";
+import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 import {EscrowFactory} from "../src/EscrowFactory.sol";
 import {Escrow} from "../src/Escrow.sol";
