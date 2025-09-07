@@ -19,7 +19,16 @@ contract CreateEscrows is Script {
     }
 
     function run() external {
-        uint256 deployerPrivateKey = uint256(vm.envBytes32("PRIVATE_KEY_DEPLOYER"));
+        uint256 deployerPrivateKey;
+
+        uint256 chainId = block.chainid;
+        if (chainId == 11155111) {
+            deployerPrivateKey = uint256(vm.envBytes32("SEPOLIA_PRIVATE_KEY"));
+            console.log("Using Sepolia private key");
+        } else {
+            deployerPrivateKey = uint256(vm.envBytes32("PRIVATE_KEY_DEPLOYER"));
+            console.log("Using Anvil/deployer private key");
+        }
         vm.startBroadcast(deployerPrivateKey);
 
         // Get the most recent EscrowFactory deployment

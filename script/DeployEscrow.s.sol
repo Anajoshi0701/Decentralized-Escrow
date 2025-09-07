@@ -17,7 +17,16 @@ contract DeployEscrow is Script {
         address arbiter = json.readAddress(".escrows[0].arbiter");
         uint256 amount = json.readUint(".escrows[0].amount");
         uint256 duration = json.readUint(".escrows[0].duration");
-        uint256 deployerPrivateKey = uint256(vm.envBytes32("PRIVATE_KEY_DEPLOYER"));
+        uint256 deployerPrivateKey;
+
+        uint256 chainId = block.chainid;
+        if (chainId == 11155111) {
+            deployerPrivateKey = uint256(vm.envBytes32("SEPOLIA_PRIVATE_KEY"));
+            console.log("Using Sepolia private key");
+        } else {
+            deployerPrivateKey = uint256(vm.envBytes32("PRIVATE_KEY_DEPLOYER"));
+            console.log("Using Anvil/deployer private key");
+        }
 
         vm.startBroadcast(deployerPrivateKey);
         Escrow escrow = new Escrow(buyer, seller, arbiter, amount, duration);
