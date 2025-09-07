@@ -17,7 +17,7 @@ contract EscrowTest is Test {
     function setUp() public {
         vm.deal(buyer, 10 ether);
         vm.prank(buyer);
-        escrow = new Escrow(seller, arbiter, amount, duration);
+        escrow = new Escrow(buyer, seller, arbiter, amount, duration);
     }
 
     function testDeposit() public {
@@ -127,5 +127,19 @@ contract EscrowTest is Test {
         vm.prank(stranger);
         vm.expectRevert(Escrow.Escrow__NotParticipant.selector);
         escrow.dispute();
+    }
+
+    function testDepositChangesState() public {
+        vm.prank(buyer);
+        escrow.deposit{value: amount}();
+        assertEq(uint256(escrow.currentState()), uint256(Escrow.State.FUNDED));
+    }
+
+    function testReleaseChangesState() public {
+        vm.prank(buyer);
+        escrow.deposit{value: amount}();
+        vm.prank(arbiter);
+        escrow.release();
+        assertEq(uint256(escrow.currentState()), uint256(Escrow.State.COMPLETE));
     }
 }

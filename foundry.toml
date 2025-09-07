@@ -5,6 +5,9 @@ libs = ["lib"]
 remappings = ["@openzeppelin/=lib/openzeppelin-contracts/",
 "foundry-devops/=lib/foundry-devops/src/"
 ]
-fs_permissions = [{ access = "read-write", path = "./broadcast" }]
+fs_permissions = [
+  { access = "read-write", path = "./broadcast" },
+  { access = "read-write", path = "./escrows.json" }
+]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

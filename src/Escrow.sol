@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract Escrow is ReentrancyGuard {
     address public immutable buyer;
@@ -19,6 +19,10 @@ contract Escrow is ReentrancyGuard {
     error Escrow__NotParticipant();
     error Escrow__DeadlinePassed();
     error Escrow__InvalidForceRefundState(State actual);
+    error Escrow__InvalidAddress();
+    error Escrow__ZeroAmount();
+    error Escrow__InvalidDuration();
+    error Escrow__InvalidArbiter();
 
     receive() external payable {
         revert();
@@ -41,8 +45,16 @@ contract Escrow is ReentrancyGuard {
     event DisputeResolved(address indexed arbiter, bool releasedToSeller);
     event ForceRefunded(address indexed buyer, uint256 amount);
 
-    constructor(address _seller, address _arbiter, uint256 _amount, uint256 _duration) {
-        buyer = msg.sender; // whoever deploys is the buyer
+    constructor(address _buyer, address _seller, address _arbiter, uint256 _amount, uint256 _duration) {
+        if (_buyer == address(0) || _seller == address(0) || _arbiter == address(0)) {
+            revert Escrow__InvalidAddress();
+        }
+        if (_amount == 0) revert Escrow__ZeroAmount();
+        if (_duration == 0) revert Escrow__InvalidDuration();
+         if (_arbiter == _buyer || _arbiter == _seller) {
+        revert Escrow__InvalidArbiter();
+    }
+        buyer = _buyer;
         seller = _seller;
         arbiter = _arbiter;
         amount = _amount;
